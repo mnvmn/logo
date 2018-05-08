@@ -19,12 +19,17 @@ class Logo extends Component {
   componentDidMount() {
     this.scene = Scene.init(this.props.width, this.props.height);
     this.el.appendChild(this.scene.renderer.domElement);
+    // this.setUpDevTools();
+    // this.enableInteractivity();
+    this.start();
+  }
 
-    const OrbitControls = orbitControls(THREE);
-    const controls = new OrbitControls(this.scene.camera, this.el); // eslint-disable-line no-new
-    controls.rotateSpeed = -1;
-    // controls.enableZoom = false;
+  componentWillUnmount() {
+    this.stop();
+    this.el.removeChild(this.scene.renderer.domElement);
+  }
 
+  setUpDevTools = () => {
     // const axesHelper = new THREE.AxesHelper(5);
     // this.scene.add(axesHelper);
 
@@ -38,14 +43,19 @@ class Logo extends Component {
 
       gui2.open();
     });
+  };
 
-    this.start();
-  }
+  enableInteractivity = () => {
+    const OrbitControls = orbitControls(THREE);
+    const controls = new OrbitControls(this.scene.camera, this.el); // eslint-disable-line no-new
+    controls.rotateSpeed = -1;
+    controls.enableZoom = false;
+  };
 
-  componentWillUnmount() {
-    this.stop();
-    this.el.removeChild(this.scene.renderer.domElement);
-  }
+  animate = () => {
+    this.scene.renderFrame();
+    this.frameId = window.requestAnimationFrame(this.animate);
+  };
 
   start = () => {
     if (!this.frameId) {
@@ -55,11 +65,6 @@ class Logo extends Component {
 
   stop = () => {
     window.cancelAnimationFrame(this.frameId);
-  };
-
-  animate = () => {
-    this.scene.renderFrame();
-    this.frameId = window.requestAnimationFrame(this.animate);
   };
 
   render() {

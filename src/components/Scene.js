@@ -4,15 +4,16 @@ const Scene = {
   init(width, height) {
     this.setUpScene(width, height);
     this.setUpGeometry();
+    this.setUpPositions();
     return this;
   },
   setUpGeometry() {
-    const mat2 = new THREE.LineBasicMaterial({ color: '#0475dc', linewidth: 1 });
+    const matWire = new THREE.LineBasicMaterial({ color: '#0475dc', linewidth: 1 });
     const circle = new THREE.CircleGeometry(30, 32);
     this.circles = [
-      new THREE.LineSegments(new THREE.EdgesGeometry(circle), mat2),
-      new THREE.LineSegments(new THREE.EdgesGeometry(circle.clone()), mat2),
-      new THREE.LineSegments(new THREE.EdgesGeometry(circle.clone()), mat2),
+      new THREE.LineSegments(new THREE.EdgesGeometry(circle), matWire),
+      new THREE.LineSegments(new THREE.EdgesGeometry(circle.clone()), matWire),
+      new THREE.LineSegments(new THREE.EdgesGeometry(circle.clone()), matWire),
     ];
 
     this.neutron = new THREE.Group();
@@ -21,13 +22,12 @@ const Scene = {
     this.neutron.add(this.circles[2]);
     this.scene.add(this.neutron);
 
-    const coreGeom = new THREE.SphereGeometry(5, 9, 9);
-    this.core = new THREE.LineSegments(new THREE.EdgesGeometry(coreGeom), mat2);
+    this.sphere = new THREE.LineSegments(
+      new THREE.EdgesGeometry(new THREE.SphereGeometry(5, 9, 9)),
+      matWire,
+    );
 
-    this.objects = [this.core, this.neutron];
-    this.setUpObjectsPosition();
-
-    this.objects.forEach((el) => {
+    [this.sphere, this.neutron].forEach((el) => {
       this.scene.add(el);
     });
   },
@@ -44,21 +44,19 @@ const Scene = {
     this.camera.position.y = 0;
     this.camera.position.z = 150;
   },
-  setUpObjectsPosition() {
+  setUpPositions() {
     this.circles[1].rotation.y = Math.PI / 4;
     this.circles[1].rotation.x = Math.PI / 3;
-    this.circles[2].rotation.y = Math.PI / 3 * 2;
+    this.circles[2].rotation.y = Math.PI / 3 * 2; // eslint-disable-line no-mixed-operators
 
-    this.neutron.rotation.x = Math.PI / 5 *2;
+    this.neutron.rotation.x = Math.PI / 5 * 2; // eslint-disable-line no-mixed-operators
     this.neutron.rotation.y = Math.PI / 4;
     this.neutron.rotation.z = Math.PI / 5;
   },
   animate() {
-    // this.neutron.rotation.x -= 0.004;
-    // this.neutron.rotation.y -= 0.002;
-    // this.neutron.rotation.z -= 0.004;
-    // this.neutron.rotation.y += 0.004;
-    // this.spheres[1].translateOnAxis(new THREE.Vector3(0, 1, 0), 1);
+    // this.sphere.rotation.y -= 0.002;
+    // this.neutron.rotation.x += 0.001;
+    // this.neutron.rotation.y += 0.005;
   },
   renderFrame() {
     this.animate();
