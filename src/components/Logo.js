@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import * as THREE from 'three';
+import * as dat from 'dat.gui';
 import * as orbitControls from 'three-orbit-controls';
 import Scene from './Scene';
 
@@ -23,7 +24,19 @@ class Logo extends Component {
     const controls = new OrbitControls(this.scene.camera, this.el); // eslint-disable-line no-new
     controls.rotateSpeed = -1;
 
+    const gui = new dat.GUI();
+
     this.start();
+
+    const { camera } = this.scene;
+    gui.add(camera.position, 'x', -100, 200);
+    gui.add(camera.position, 'y', -100, 200);
+    gui.add(camera.position, 'z', -100, 200);
+
+    const gui2 = gui.addFolder('circles');
+    gui2.add(camera.position, 'z', -100, 200);
+
+    gui2.open();
   }
 
   componentWillUnmount() {

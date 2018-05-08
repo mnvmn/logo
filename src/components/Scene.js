@@ -23,7 +23,7 @@ const Scene = {
     ];
 
     const coreGeom = new THREE.SphereGeometry(5, 10, 10);
-    this.core = new THREE.LineSegments(new THREE.EdgesGeometry(coreGeom), mat2)
+    this.core = new THREE.LineSegments(new THREE.EdgesGeometry(coreGeom), mat2);
 
     this.spheres = [this.core];
     // this.spheres = [
