@@ -28,13 +28,18 @@ class Logo extends Component {
 
     this.start();
 
-    const { camera } = this.scene;
+    const { camera, neutron } = this.scene;
+
+    console.log(neutron);
+
     gui.add(camera.position, 'x', -100, 200);
     gui.add(camera.position, 'y', -100, 200);
     gui.add(camera.position, 'z', -100, 200);
 
-    const gui2 = gui.addFolder('circles');
-    gui2.add(camera.position, 'z', -100, 200);
+    const gui2 = gui.addFolder('neutron');
+    gui2.add(neutron.position, 'x', 0, Math.PI);
+    gui2.add(neutron.rotation, 'y', 0, Math.PI);
+    gui2.add(neutron.rotation, 'z', 0, Math.PI);
 
     gui2.open();
   }

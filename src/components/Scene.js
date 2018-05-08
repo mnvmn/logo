@@ -22,10 +22,14 @@ const Scene = {
       new THREE.LineSegments(new THREE.EdgesGeometry(circle.clone()), mat2),
     ];
 
-    const coreGeom = new THREE.SphereGeometry(5, 10, 10);
+    this.neutron = new THREE.Object3D();
+    this.neutron.add(this.circle);
+    this.neutron.add(this.circles[1]);
+
+    const coreGeom = new THREE.SphereGeometry(5, 9, 9);
     this.core = new THREE.LineSegments(new THREE.EdgesGeometry(coreGeom), mat2);
 
-    this.spheres = [this.core];
+    this.objects = [this.core, this.neutron];
     // this.spheres = [
     //   new THREE.LineSegments(new THREE.EdgesGeometry(sphere1), mat2),
     //   new THREE.LineSegments(new THREE.EdgesGeometry(sphere2), mat2),
@@ -34,11 +38,9 @@ const Scene = {
 
     this.setUpObjectsPosition();
 
-    this.spheres.concat(this.circles).forEach((el) => {
+    this.objects.concat(this.circles).forEach((el) => {
       this.scene.add(el);
     });
-
-    // this.render.frame();
   },
   setUpScene(width, height) {
     this.scene = new THREE.Scene();
@@ -72,9 +74,18 @@ const Scene = {
   },
   animate() {
     // this.pivots[0].rotation.z -= 0.002;
-    this.circles[1].rotation.z -= 0.002;
+    // this.circles[1].rotation.z -= 0.002;
+    // this.neutron.rotation.x -= 0.002;
+    // this.neutron.position.z += 0.2;
     // this.spheres[1].translateOnAxis(new THREE.Vector3(0, 1, 0), 1);
     // console.log(this.object.rotation.y);
+
+
+    this.circles[0].rotation.x -= 0.004;
+    this.circles[0].rotation.y -= 0.008;
+    this.circles[1].rotation.y -= 0.008;
+    this.circles[2].rotation.x -= 0.008;
+    this.circles[2].rotation.y -= 0.004;
   },
   renderFrame() {
     this.animate();
