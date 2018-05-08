@@ -23,25 +23,23 @@ class Logo extends Component {
     const OrbitControls = orbitControls(THREE);
     const controls = new OrbitControls(this.scene.camera, this.el); // eslint-disable-line no-new
     controls.rotateSpeed = -1;
+    // controls.enableZoom = false;
+
+    // const axesHelper = new THREE.AxesHelper(5);
+    // this.scene.add(axesHelper);
 
     const gui = new dat.GUI();
+    const { camera, neutron, circles } = this.scene;
+    [camera, neutron, ...circles].forEach((el, index) => {
+      const gui2 = gui.addFolder(`element${index}`);
+      gui2.add(el.rotation, 'x', 0, Math.PI, 0.01);
+      gui2.add(el.rotation, 'y', 0, Math.PI, 0.01);
+      gui2.add(el.rotation, 'z', 0, Math.PI, 0.01);
+
+      gui2.open();
+    });
 
     this.start();
-
-    const { camera, neutron } = this.scene;
-
-    console.log(neutron);
-
-    gui.add(camera.position, 'x', -100, 200);
-    gui.add(camera.position, 'y', -100, 200);
-    gui.add(camera.position, 'z', -100, 200);
-
-    const gui2 = gui.addFolder('neutron');
-    gui2.add(neutron.position, 'x', 0, Math.PI);
-    gui2.add(neutron.rotation, 'y', 0, Math.PI);
-    gui2.add(neutron.rotation, 'z', 0, Math.PI);
-
-    gui2.open();
   }
 
   componentWillUnmount() {
